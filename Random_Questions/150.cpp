@@ -12,7 +12,6 @@
 // There will not be any division by zero.
 // The input represents a valid arithmetic expression in a reverse polish notation.
 // The answer and all the intermediate calculations can be represented in a 32-bit integer.
- 
 
 // Example 1:
 
@@ -35,10 +34,66 @@
 // = (0 + 17) + 5
 // = 17 + 5
 // = 22
- 
 
 // Constraints:
 
 // 1 <= tokens.length <= 104
 // tokens[i] is either an operator: "+", "-", "*", or "/", or an integer in the range [-200, 200].
+
+// Approach-->  (Using Stack)
+class Solution
+{
+public:
+    int operate(int a, int b, string token)
+    {
+        if (token == "+")
+        {
+            return a + b;
+        }
+
+        if (token == "-")
+        {
+            return a - b;
+        }
+
+        if (token == "*")
+        {
+            return a * b;
+        }
+
+        if (token == "/")
+        {
+            return a / b;
+        }
+
+        return -1;
+    }
+    int evalRPN(vector<string> &tokens)
+    {
+        stack<int> st;
+
+        for (string &token : tokens)
+        {
+            if (token == "+" || token == "-" || token == "*" || token == "/")
+            {
+                // pop two elements from the stack,operate them and push result
+                // in stack
+                int num2 = st.top();
+                st.pop();
+                int num1 = st.top();
+                st.pop();
+
+                int result = operate(num1, num2, token);
+                st.push(result);
+            }
+            else
+            {
+                st.push(stoi(token));
+            }
+        }
+        return st.top();
+    }
+};
+
+// TC-->O(N)
 
